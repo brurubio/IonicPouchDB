@@ -27,12 +27,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   $stateProvider
     .state('login', {
       url: '/login',
-      controller: 'SignupCtrl',
+      controller: 'LoginCtrl',
       templateUrl: 'templates/login.html'
   })
+    .state('teste', {
+      url: '/teste',
+      templateUrl: 'templates/teste.html'
+  })
     .state('register', {
-    url: '/register',
-    templateUrl: 'templates/register.html'
+      url: '/register',
+      templateUrl: 'templates/register.html',
+      controller: 'userCreateCtrl'
   });
 
   // If none of the above states are matched, use this as the fallback

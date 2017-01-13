@@ -1,21 +1,18 @@
 angular.module('starter.controllers', [])
 
-//Redirect to RegisterPage
+//Controller da Login View
 .controller('LoginCtrl', function($scope, $state) {
-})
-
-//Redirect to RegisterPage
-.controller('SignupCtrl', function($scope, $state) {
+  //Redirect to RegisterPage
   $scope.registerPage = function() {
     $state.go('register');
   };
+  //Redirect to homePage
+  $scope.authLogin = function() {
+    $state.go('teste');
+  };
+  
 })
 
-.controller('userCtrl', function($scope, User, userFactory) {
-  //cadastro dois registros
-  var nm = $user.name;
-  var us = $user.username;
-  var ps = $user.password;
-  var tu = $user.usertype;
-  userFactory.insert(nm, us, ps, tu);
+//Controller da Register View
+.controller('userCreateCtrl', function($scope) {
 });
