@@ -1,0 +1,18 @@
+<ion-view view-title="Register" name="register-view">
+  <ion-pane>
+      <ion-content>
+        <div class="login-block">
+          <h1>Teeeeste</h1>
+          <form method="post">
+            <input type="text" value="" placeholder="Name" ng-model="user.name" required="required"/>
+            <input type="text" value="" placeholder="Username" ng-model="user.username" required="required"/>
+            <input type="password" value="" placeholder="Password" ng-model="user.pswd" required="required"/>
+            <input type="text" value="" placeholder="UserType" ng-model="user.usertype" required="required"/>
+            <div class="button-block">
+              <button ng-click="createUser()">Register</button>
+            </div>
+          </form>
+        </div>
+      </ion-content>
+  </ion-pane>
+</ion-view>

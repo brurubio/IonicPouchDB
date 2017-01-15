@@ -7,6 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
+
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -20,6 +21,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+    var PouchDB = require("pouchdb");
+    PouchDB.plugin(require('pouchdb-authentication'));    
+    var db = new PouchDB('http://localhost:5984/apph', {skipSetup: true});
+    var local = new PouchDB('local_db');
+    local.sync(db, {live: true, retry: true}).on('error', console.log.bind(console));
   });
 })
 
@@ -37,7 +43,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     .state('register', {
       url: '/register',
       templateUrl: 'templates/register.html',
-      controller: 'userCreateCtrl'
+      controller: 'RegisterCtrl'
   });
 
   // If none of the above states are matched, use this as the fallback

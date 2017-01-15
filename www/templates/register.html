@@ -3,13 +3,13 @@
       <ion-content>
         <div class="login-block">
           <h1>Sign Up</h1>
-          <form method="post">
-            <input type="text" value="" placeholder="Name" ng-model="user.name" required="required"/>
-            <input type="text" value="" placeholder="Username" ng-model="user.username" required="required"/>
-            <input type="password" value="" placeholder="Password" ng-model="user.pswd" required="required"/>
-            <input type="text" value="" placeholder="UserType" ng-model="user.usertype" required="required"/>
+          <form name="RegisterForm" id="RegForm">
+            <input type="text" value="" placeholder="Name" name="uname" ng-model="uname" required="required"/>
+            <input type="text" value="" placeholder="Username" name="uusername" ng-model="uusername" required="required"/>
+            <input type="password" value="" placeholder="Password" name="upswd" ng-model="upswd" required="required"/>
+            <input type="text" value="" placeholder="UserType" name="uusertype" ng-model="uusertype" required="required"/>
             <div class="button-block">
-              <button>Register</button>
+              <button ng-click="signUp()">Register</button>
             </div>
           </form>
         </div>

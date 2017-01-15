@@ -1,0 +1,57 @@
+{
+  "name": "pouchdb-authentication",
+  "version": "0.5.5",
+  "description": "PouchDB Authentication",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nolanlawson/pouchdb-authentication.git"
+  },
+  "scripts": {
+    "jshint": "jshint -c .jshintrc lib/ test/test.js",
+    "build-js": "mkdirp dist && browserify . -p bundle-collapser/plugin -s PouchAuthentication > dist/pouchdb.authentication.js",
+    "min": "uglifyjs dist/pouchdb.authentication.js -mc > dist/pouchdb.authentication.min.js",
+    "build": "npm run build-js && npm run min",
+    "dev": "zuul --local 9000 --no-coverage --ui mocha-bdd test/test.js",
+    "test": "zuul --phantom --ui mocha-bdd test/test.js"
+  },
+  "keywords": [
+    "pouch",
+    "pouchdb",
+    "authentication",
+    "couch",
+    "couchdb"
+  ],
+  "author": "Nolan Lawson <nolan@nolanlawson.com",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/nolanlawson/pouchdb-authentication/issues"
+  },
+  "dependencies": {
+    "inherits": "2.0.1",
+    "pouchdb-ajax": "6.0.3",
+    "pouchdb-extend": "0.1.2",
+    "pouchdb-promise": "6.0.3",
+    "pouchdb-utils": "6.0.3",
+    "url-join": "1.1.0"
+  },
+  "devDependencies": {
+    "bluebird": "^2.0.0",
+    "browserify": "13.0.1",
+    "bundle-collapser": "^1.2.1",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
+    "istanbul": "^0.1.46",
+    "jshint": "2.8.0",
+    "mkdirp": "^0.5.1",
+    "mocha": "^2.3.3",
+    "phantomjs-prebuilt": "2.1.7",
+    "pouchdb-memory": "^6.0.0",
+    "uglify-js": "^2.4.24",
+    "zuul": "^3.10.1"
+  },
+  "files": [
+    "lib",
+    "dist"
+  ]
+}
