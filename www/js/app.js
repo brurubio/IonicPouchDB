@@ -5,8 +5,85 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngMockE2E'])
 
+.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
+  $stateProvider
+  .state('login', {
+    url: '/login',
+    templateUrl: 'templates/login.html',
+    controller: 'LoginCtrl'
+  })
+      .state('register', {
+      url: '/register',
+      templateUrl: 'templates/register.html',
+      controller: 'RegisterCtrl'
+  })
+  .state('main', {
+    url: '/',
+    abstract: true,
+    templateUrl: 'templates/menu.html',
+    controller: 'MainCtrl'
+  })
+  .state('main.modulo', {
+    url: '/modulo',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/modulo.html',
+        controller: 'ModeCtrl'
+      }
+    }
+  })
+  .state('main.home', {
+    url: 'main/home',
+    views: {
+        'menuContent': {
+          templateUrl: 'templates/home.html'
+        }
+    },
+    //data: {
+    //  authorizedRoles: [USER_ROLES.admin]
+    //}
+  });
+  
+  // Thanks to Ben Noblet!
+  $urlRouterProvider.otherwise(function ($injector, $location) {
+    var $state = $injector.get("$state");
+    $state.go("login");
+  });
+})
+
+.run(function($httpBackend){
+  $httpBackend.whenGET('http://localhost:8100/valid')
+        .respond({message: 'This is my valid response!'});
+  $httpBackend.whenGET('http://localhost:8100/notauthenticated')
+        .respond(401, {message: "Not Authenticated"});
+  $httpBackend.whenGET('http://localhost:8100/notauthorized')
+        .respond(403, {message: "Not Authorized"});
+ 
+  $httpBackend.whenGET(/templates\/\w+.*/).passThrough();
+ })
+
+.run(function ($rootScope, $state, AuthService, AUTH_EVENTS) {
+  $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) {
+ 
+    if ('data' in next && 'authorizedRoles' in next.data) {
+      var authorizedRoles = next.data.authorizedRoles;
+      if (!AuthService.isAuthorized(authorizedRoles)) {
+        event.preventDefault();
+        $state.go($state.current, {}, {reload: true});
+        $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+      }
+    }
+ 
+    if (!AuthService.isAuthenticated()) {
+      if (next.name !== 'login') {
+        event.preventDefault();
+        $state.go('login');
+      }
+    }
+  });
+})
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -24,75 +101,4 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     //var PouchDB = require("pouchdb");
     //PouchDB.plugin(require('pouchdb-authentication'));    
   });
-})
-
-.config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider
-    .state('login', {
-      url: '/login',
-      controller: 'LoginCtrl',
-      templateUrl: 'templates/login.html'
-  })
-    .state('teste', {
-      url: '/teste',
-      templateUrl: 'templates/teste.html'
-  })    
-    .state('register', {
-      url: '/register',
-      templateUrl: 'templates/register.html',
-      controller: 'RegisterCtrl'
-  })
-    .state('home', {
-      url: '/home',
-      //abstract: true,
-      templateUrl: 'templates/menu.html',
-      controller: 'HomeCtrl'
-  })
-    .state('home.modulo', {
-    url: '/modulo',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/modulo.html',
-        controller: 'ModeCtrl'
-      }
-    }
-  })
-  .state('home.search', {
-    url: '/search',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/search.html'
-      }
-    }
-  })
-
-  .state('home.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
-      }
-    })
-    .state('home.playlists', {
-      url: '/playlists',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/playlists.html',
-          //controller: 'PlaylistsCtrl'
-        }
-      }
-    })
-  .state('home.single', {
-    url: '/playlists/:playlistId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/playlist.html',
-       // controller: 'PlaylistCtrl'
-      }
-    }
-  });
-  // If none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
-
 });
