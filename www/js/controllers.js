@@ -1,63 +1,56 @@
 angular.module('starter.controllers', [])
 
 //Controller da Login View
-.controller('LoginCtrl', function($scope, $state) {
+.controller('LoginCtrl', function($scope, $state, PouchService) {
+  
+  $scope.lin = {};
   //Redirect to RegisterPage
   $scope.registerPage = function() {
     $state.go('register');
   };
   //Redirect to homePage
   $scope.authLogin = function() {
-    $state.go('teste');
+    //console.log($scope.lin);
+    $scope.lin._id = 'userSU'+$scope.lin.username;
+    PouchService.logIn($scope.lin).then(function(res){
+      console.log('Só se der certo');
+      $state.go('home');
+    });
   };
   
 })
 
 //Controller da Register View
-.controller('RegisterCtrl', function($scope) {
-  var form = document.getElementById('RegForm');
+.controller('RegisterCtrl', function($scope, $state, PouchService) {
   
+  $scope.user = {};
+  
+  //Register Function
   $scope.signUp = function (){
-    var user = {};
-
-    user.name = form.uname.value;
-    user.username = form.uusername.value;
-    user.password = form.upswd.value;
-    //user.usertype = form.uusertype.value;
     
-    if (form.uusertype.value == 1){
-        user.id = 'userSet001';
-    } else if (form.uusertype.value == 2){
-       user.id = 'userSU'+user.name;
-    } else if (form.uusertype.value == 3){
-       user.id = 'userMKT'+user.name;
-    } 
-    console.log(user.id);
-    console.log(user.name);
-    console.log(user.username);
+    if ($scope.user.usertype == 1){
+        $scope.user._id = 'userSet'+$scope.user.username;
+    } else if ($scope.user.usertype == 2){
+       $scope.user._id = 'userSU'+$scope.user.username;
+    } else if ($scope.user.usertype == 3){
+       $scope.user._id = 'userMKT'+$scope.user.username;
+    }
+    PouchService.addDocument($scope.user).then(function(){
+      //console.log(docs);
+      $state.go('login');
+    });
+    //PouchService.getDocument('').then(function(docs){console.log(docs);});
+    PouchService.getAllDocuments().then(function(docs){console.log(docs);});
+    //PouchService.removeDocument('').then(function(docs){console.log(docs);});
   };
+})
+//Controller da Menu View  
+.controller('HomeCtrl', function($scope, $state, PouchService) {
+  var doc = PouchService.getDocument('userSUbrurubio');
+  $state.go('home.modulo');
+  //return doc;
+})
+
+.controller('ModeCtrl', function($scope, $state, PouchService) {
+  
 });
-    
-    //$scope.signUp = function (){
-    //  db.signup('robin', 'dickgrayson', {
-    //    metadata : {
-    //      email : 'robin@boywonder.com',
-    //      birthday : '1932-03-27T00:00:00.000Z',
-    //      likes : ['acrobatics', 'short pants', 'sidekickin\''],
-    //    }
-    //  }, function (err) {
-    //    if (err) {
-    //      if (err.name === 'conflict') {
-    //        // "batman" already exists, choose another username
-    //      } else if (err.name === 'forbidden') {
-    //        // invalid username
-    //      } else {
-    //        // HTTP error, cosmic rays, etc.
-    //      }
-    //    } else {
-    //       console.log("Usuário Criado com Sucesso");
-    //       $state.go('teste');
-    //    }
-    //  });
-    //};
-//});

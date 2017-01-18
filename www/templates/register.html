@@ -4,10 +4,10 @@
         <div class="login-block">
           <h1>Sign Up</h1>
           <form name="RegisterForm" id="RegForm">
-            <input type="text" value="" placeholder="Name" name="uname" ng-model="uname" required="required"/>
-            <input type="text" value="" placeholder="Username" name="uusername" ng-model="uusername" required="required"/>
-            <input type="password" value="" placeholder="Password" name="upswd" ng-model="upswd" required="required"/>
-            <input type="text" value="" placeholder="UserType" name="uusertype" ng-model="uusertype" required="required"/>
+            <input type="text" value="" placeholder="Name" name="uname" ng-model="user.name" required="required"/>
+            <input type="text" value="" placeholder="Username" name="uusername" ng-model="user.username" required="required"/>
+            <input type="password" value="" placeholder="Password" name="upswd" ng-model="user.pswd" required="required"/>
+            <input type="text" value="" placeholder="UserType" name="uusertype" ng-model="user.usertype" required="required"/>
             <div class="button-block">
               <button ng-click="signUp()">Register</button>
             </div>

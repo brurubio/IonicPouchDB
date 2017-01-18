@@ -68,7 +68,7 @@
     height: 60px;
 }
 
-.login-block button {
+.login-block button, .box button {
     width: 100%;
     height: 40px;
     background: #ff656c;
@@ -84,6 +84,68 @@
     cursor: pointer;
 }
 
-.login-block button:hover {
+.login-block button:hover, .box button:hover {
     background: #ff7b81;
+}
+
+.sideMenuContent {
+    margin-top: 10%;
+}
+
+.mode-content {
+    margin: auto;
+    padding-left: 35%;
+}
+
+.mode-block {
+    width: 25%;
+	background:#f6f6f6;
+	text-align:center;
+	padding:20px;
+    margin-left: auto; 
+    margin-bottom:20px;
+    display: inline-block;
+}
+
+* --- box --- */
+
+.box {
+	width: 100%;
+}
+.box-gray  {
+    text-align: center;
+	background: #f8f8f8;
+	padding: 20px 20px 30px;
+}
+.box-gray  h4,.box-gray  i {
+	margin-bottom: 20px;
+}
+.box-bottom {
+	padding: 20px 0;
+	text-align: center;
+}
+.box-bottom a {
+	color: #fff;
+	font-weight: 700;
+}
+.box-bottom a:hover {
+	color: #eee;
+	text-decoration: none;
+}
+
+.icon{
+    margin: 10px 10px 10px 0;
+    display: inline-block !important;
+    text-align: center !important;
+    color: #fff;
+    width: 68px;
+    height: 68px;
+	padding:12px;
+    font-size: 16px;
+	font-weight:700;
+    line-height: 68px;
+    text-shadow:none;
+    cursor: pointer;
+    background-color: #FF7B81;
+    border-radius: 64px;
 }

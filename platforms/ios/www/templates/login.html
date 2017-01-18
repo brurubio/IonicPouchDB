@@ -9,11 +9,13 @@
       </div>
       <div class="login-block">
         <h1>Login</h1>
-          <input type="text" placeholder="Username" ng-model="username" required="required"/>
-          <input type="password" placeholder="Password" ng-model="password" required="required"/>
+        <form name="LoginForm">
+          <input type="text" placeholder="Username" ng-model="lin.username" required="required"/>
+          <input type="password" placeholder="Password" ng-model="lin.password" required="required"/>
           <div class="button-block">
             <button ng-click="authLogin()">Sign In</button>
           </div>
+        </form>
           <div class="button-block">
             <button ng-click="registerPage()">Sign Up</button>
           </div>
