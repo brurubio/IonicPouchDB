@@ -13,7 +13,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     controller: 'RegisterCtrl'
   })
   .state('main', {
-    url: '/',
+    url: '/main',
     abstract: true,
     templateUrl: 'templates/menu.html',
     controller: 'MainCtrl'
@@ -28,12 +28,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
   .state('main.home', {
-    url: 'main/home',
+    url: '/home',
     views: {
-        'menuContent': {
-          templateUrl: 'templates/home.html'
-        }
-    },
+      'menuContent': {
+        templateUrl: 'templates/home.html'
+      }
+    }
     //data: {
     //  authorizedRoles: [USER_ROLES.admin]
     //}
@@ -58,7 +58,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
  })
 
 .run(function ($rootScope, $state, AuthService, AUTH_EVENTS) {
-  $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) {
+  $rootScope.$on('$stateChangeStart', function (event, next, nextParams, fromState) {
 
     if ('data' in next && 'authorizedRoles' in next.data) {
       var authorizedRoles = next.data.authorizedRoles;
@@ -71,7 +71,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
     if (!AuthService.isAuthenticated()) {
       if (next.name !== 'login') {
-        event.preventDefault();
+        //event.preventDefault();
         $state.go('login');
       }
     }

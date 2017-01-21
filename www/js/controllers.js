@@ -48,7 +48,7 @@ angular.module('starter.controllers', [])
   };
 
   //Redirect to RegisterPage
-  $scope.registerPage = function() {
+  $scope.registerPage = function(){
     $state.go('register');
   };
 })
@@ -95,5 +95,5 @@ angular.module('starter.controllers', [])
 .controller('ModeCtrl', function($scope, $state, PouchService) {
   $scope.redirecTo = function (){
     $state.go('main.home');
-  }
+  };
 });
