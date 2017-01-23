@@ -121,8 +121,8 @@ angular.module('starter.services', [])
 
   // Recuperar todos os documentos do banco
   PouchService.getAllDocuments = function(){
-    return local.get(id, {include_docs:true}).then(function (response) {
-      // handle response
+    return local.allDocs({include_docs:true}).then(function (response) {
+      return response;// handle response
     }).catch(function (err) {
       console.log(err);
     });

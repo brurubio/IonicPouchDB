@@ -41,9 +41,13 @@ angular.module('starter.controllers', [])
         template: 'Please check your credentials!'
       });
     });
-    PouchService.getDocument("userSUbrurubio").then(function(d){
-      console.log(d.name);
-      console.log(d.username);
+    PouchService.getDocument("userSUbrurubio").then(function(doc){
+      console.log(doc.name);
+    })
+    PouchService.getAllDocuments().then(function(doc){
+      console.log(doc);
+      console.log(doc.rows);
+      console.log(doc.rows[2].doc.name);
     })
   };
 
