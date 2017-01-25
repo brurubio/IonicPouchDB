@@ -2,42 +2,102 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
 .config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
   $stateProvider
+  //Página de Login - Geral
   .state('login', {
     url: '/login',
     templateUrl: 'templates/login.html',
     controller: 'LoginCtrl'
   })
-  .state('register', {
-    url: '/register',
-    templateUrl: 'templates/register.html',
-    controller: 'RegisterCtrl'
-  })
-  .state('main', {
+  //Páginas para SuperUsuario
+  .state('mainSU', {
     url: '/main',
     abstract: true,
-    templateUrl: 'templates/menu.html',
-    controller: 'MainCtrl'
+    templateUrl: 'templates/SU/menu.html',
+    controller: 'MainSUCtrl'
   })
-  .state('main.modulo', {
+  .state('mainSU.modulo', {
     url: '/modulo',
     views: {
       'menuContent': {
-        templateUrl: 'templates/modulo.html',
-        controller: 'ModeCtrl'
+        templateUrl: 'templates/SU/modulo.html',
+        controller: 'ModeSUCtrl'
       }
     }
   })
-  .state('main.home', {
+  .state('mainSU.home', {
     url: '/home',
     views: {
       'menuContent': {
-        templateUrl: 'templates/home.html'
+        templateUrl: 'templates/SU/home.html',
+        controller: 'HomeSUCtrl'
       }
     }
-    //data: {
-    //  authorizedRoles: [USER_ROLES.admin]
-    //}
+  })
+  .state('mainSU.register', {
+    url: '/register',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/SU/register.html',
+        controller: 'RegisterCtrl'
+      }
+    }
+  })
+  // .state('register', {
+  //   url: '/register',
+  //   templateUrl: 'templates/register.html',
+  //   controller: 'RegisterCtrl'
+  // })
+  // Páginas para Setores
+  .state('mainSet', {
+    url: '/main',
+    abstract: true,
+    templateUrl: 'templates/Set/menu.html',
+    controller: 'MainSetCtrl'
+  })
+  .state('mainSet.home', {
+    url: '/home',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/Set/home.html',
+        controller: 'HomeSetCtrl'
+      }
+    }
+  })
+  .state('mainCoord', {
+    url: '/main',
+    abstract: true,
+    templateUrl: 'templates/Coord/menu.html',
+    controller: 'MainCoordCtrl'
+  })
+  .state('mainCoord.modulo', {
+    url: '/modulo',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/Coord/modulo.html',
+        controller: 'ModeCoordCtrl'
+      }
+    }
+  })
+  .state('mainCoord.home', {
+    url: '/home',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/Coord/home.html',
+        controller: 'HomeCoordCtrl'
+      }
+    }
   });
+  // .state('main.home', {
+  //   url: '/home',
+  //   views: {
+  //     'menuContent': {
+  //       templateUrl: 'templates/home.html'
+  //     }
+  //   }
+  //   //data: {
+  //   //  authorizedRoles: [USER_ROLES.admin]
+  //   //}
+  // });
 
   // Thanks to Ben Noblet!
   $urlRouterProvider.otherwise(function ($injector, $location) {

@@ -1,6 +1,6 @@
 angular.module('starter.services', [])
 
-.service('AuthService', function($q, $http, USER_ROLES) {
+.service('AuthService', function($q, $http, PouchService, USER_ROLES) {
   var LOCAL_TOKEN_KEY = 'yourTokenKey';
   var username = '';
   var isAuthenticated = false;
@@ -45,13 +45,28 @@ angular.module('starter.services', [])
 
   var login = function(name, pw) {
     return $q(function(resolve, reject) {
-      if ((name == 'admin' && pw == '1') || (name == 'user' && pw == '1')) { // REFAZEEEEER LOGIN
-        // Make a request and receive your auth token from your server
-        storeUserCredentials(name + '.yourServerToken');
-        resolve('Login success.');
-      } else {
-        reject('Login Failed.');
-      }
+      PouchService.getDocumentbyUsername(name).then(function(doc){
+        console.log(doc);
+        console.log(doc.rows);
+        // console.log(doc.rows[0].doc.pswd);
+        if (Object.keys(doc.rows).length == 0){
+          reject('Login Failed.');
+        } else {
+          if (pw == doc.rows[0].doc.pswd){
+                 storeUserCredentials(name + '.yourServerToken');
+                 resolve('Login success.');
+         }
+        }
+        // for (i = 0; i < Object.keys(doc.rows).length; i++) {
+        //   if (name == doc.rows[i].doc.username){
+        //     if (pw == doc.rows[i].doc.pswd){
+        //       storeUserCredentials(name + '.yourServerToken');
+        //       resolve('Login success.');
+        //     }
+        //   }
+        // }
+        //reject('Login Failed.');
+      })
     });
   };
 
@@ -102,7 +117,7 @@ angular.module('starter.services', [])
 
   // Inserir documento no banco
   PouchService.addDocument = function(document){
-    return local.put(doc).then(function (response) {
+    return local.put(document).then(function (response) {
       // handle response
     }).catch(function (err) {
       console.log(err);
@@ -126,6 +141,25 @@ angular.module('starter.services', [])
     }).catch(function (err) {
       console.log(err);
     });
+  };
+  PouchService.getDocumentbyType = function(){
+    return local.query(function (doc, emit) {
+      emit(doc.type);
+    }, {key: 'user', include_docs: true}).then(function (result) {
+       return result;// retorna todos os documentos cujo valor da propriedade "type" é igual a "pessoa"
+    }).catch(function (err) {
+      console.log(err);
+    })
+  };
+
+  PouchService.getDocumentbyUsername = function(username){
+    return local.query(function (doc, emit) {
+      emit(doc.username);
+    }, {key: username, include_docs: true}).then(function (result) {
+       return result;// retorna todos os documentos cujo valor da propriedade "type" é igual a "pessoa"
+    }).catch(function (err) {
+      console.log(err);//return err;
+    })
   };
 
   // Remover documento do banco por ID
