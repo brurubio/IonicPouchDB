@@ -32,9 +32,17 @@ angular.module('starter.controllers', [])
   // //Redirect to mainPage
   $scope.authLogin = function(data) {
 
-    AuthService.login(data.username, data.password).then(function(authenticated) { //REFAZER LOGIN
-      $state.go('mainSU.modulo', {}, {reload: true});
+    AuthService.login(data.username, data.password).then(function(authenticated) {
       $scope.setCurrentUsername(data.username);
+      if (authenticated.rows[0].doc.usertype == 1){
+          $state.go('mainSet.home', {}, {reload: true});
+      } else if (authenticated.rows[0].doc.usertype == 2){
+         $state.go('mainSU.home', {}, {reload: true});
+      } else if (authenticated.rows[0].doc.usertype == 3){
+         $state.go('mainMKT.home', {}, {reload: true});
+      } else if (authenticated.rows[0].doc.usertype == 4){
+         $state.go('mainCoord.modulo', {}, {reload: true});
+      }
     }, function(err) {
       var alertPopup = $ionicPopup.alert({
         title: 'Login failed!',
@@ -92,8 +100,12 @@ angular.module('starter.controllers', [])
        $scope.user._id = 'userSU'+$scope.user.username;
     } else if ($scope.user.usertype == 3){
        $scope.user._id = 'userMKT'+$scope.user.username;
+    } else if ($scope.user.usertype == 4){
+       $scope.user._id = 'userCoord'+$scope.user.username;
     }
+    //PouchService.addRelational('user', $scope.user).then(function(){
     $scope.user.type = 'user';
+    $scope.user.inst = Object.create(null);
     PouchService.addDocument($scope.user).then(function(){
       //console.log(docs);
       $state.go('login');
@@ -105,19 +117,19 @@ angular.module('starter.controllers', [])
 })
 
 // Controller da MainMenu
-.controller('MainCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
-  $scope.logout = function() {
-    AuthService.logout();
-    $state.go('login');
-  };
-})
-
-// Controller da Mode View
-.controller('ModeCtrl', function($scope, $state, PouchService) {
-  $scope.redirecTo = function (){
-    $state.go('main.home');
-  };
-})
+// .controller('MainCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
+//   $scope.logout = function() {
+//     AuthService.logout();
+//     $state.go('login');
+//   };
+// })
+//
+// // Controller da Mode View
+// .controller('ModeCtrl', function($scope, $state, PouchService) {
+//   $scope.redirecTo = function (){
+//     $state.go('main.home');
+//   };
+// })
 // Controllers da SU
 .controller('MainSUCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
   $scope.logout = function() {
@@ -126,13 +138,45 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('ModeSUCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
-  $scope.redirecTo = function (){
-    $state.go('mainSU.home');
+.controller('HomeSUCtrl', function($scope, $state, $http, $ionicPopup, PouchService, AuthService) {
+  $scope.var = {};
+  $scope.regInst = function (){
+    //Get instype
+    var myPopup = $ionicPopup.show({
+    template: '<input type="text" ng-model="var.value">',
+    title: 'Enter the inst type',
+    // subTitle: 'Please use normal things',
+    scope: $scope,
+    buttons: [
+      { text: 'Cancel' },
+      {
+        text: '<b>Save</b>',
+        type: 'button-positive',
+        onTap: function(e) {
+          if (!$scope.var.value) {
+            //don't allow the user to close unless he enters wifi password
+            e.preventDefault();
+           } else {
+             if ($scope.var.value == 1){
+               $state.go('mainSU.regInstCLT');
+             } else if ($scope.var.value == 2){
+               $state.go('mainSU.regInstHosp');
+             } else if ($scope.var.value == 3){
+               $state.go('mainSU.regInstILP');
+             } else if ($scope.var.value == 4){
+               $state.go('mainSU.regInstONG');
+             } else if ($scope.var.value == 5){
+               $state.go('mainSU.regInstOP');
+             } else if ($scope.var.value == 6){
+               $state.go('mainSU.regInstPDV');
+             }
+            //return $scope.var.value; // FAZER VALIDAÇAO DO DADO
+          }
+        }
+      }
+    ]
+  });
   };
-})
-
-.controller('HomeSUCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
 })
 
 .controller('MainSetCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
@@ -144,6 +188,15 @@ angular.module('starter.controllers', [])
 .controller('HomeSetCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
 })
 
+.controller('MainMKTCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
+  $scope.logout = function() {
+    AuthService.logout();
+    $state.go('login');
+  };
+})
+.controller('HomeMKTCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
+})
+
 .controller('MainCoordCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
   $scope.logout = function() {
     AuthService.logout();
@@ -153,4 +206,53 @@ angular.module('starter.controllers', [])
 .controller('ModeCoordCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
 })
 .controller('HomeCoordCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
-});
+})
+
+.controller('regInstCLTCtrl', function($q, $scope, $state, $http, $ionicPopup, PouchService, AuthService) {
+  console.log($scope.username);
+})
+.controller('regInstHospCtrl', function($q, $scope, $state, $http, $ionicPopup, PouchService, AuthService) {
+  //console.log($scope.username);
+  $scope.inst = {};
+  getUserID = function (){
+    return $q(function(resolve, reject) {
+      PouchService.getDocumentbyUsername($scope.username).then(function(doc){
+        if (Object.keys(doc.rows).length == '0'){
+        } else {
+           resolve(doc);
+        }
+      });
+    });
+  };
+
+  $scope.regNewHosp = function() {
+    getUserID().then(function(d){
+      $scope.inst.user = d.rows[0].doc._id;
+      //console.log($scope.inst.user);
+      $scope.inst._id = 'instHosp03';
+      $scope.inst.type = 'instHosp';
+      //console.log($scope.inst);
+      //console.log($scope.inst.user);
+      PouchService.addDocument($scope.inst).then(function(){
+           //console.log(doc);
+           PouchService.getDocument($scope.inst.user).then(function(doc){
+            //  console.log(doc);
+             doc.inst = $scope.inst._id;
+               PouchService.addDocument(doc).then(function(){
+               });
+           });
+           $state.go('mainSU.home');
+      });
+    });
+  };
+
+})
+.controller('regInstILPCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
+})
+.controller('regInstONGCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
+})
+.controller('regInstOPCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
+})
+.controller('regInstPDVCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
+})
+;

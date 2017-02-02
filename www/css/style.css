@@ -68,7 +68,7 @@
     height: 60px;
 }
 
-.login-block button, .box button {
+.button-block button {
     width: 100%;
     height: 40px;
     background: #ff656c;
@@ -84,7 +84,7 @@
     cursor: pointer;
 }
 
-.login-block button:hover, .box button:hover {
+.button-block button:hover  {
     background: #ff7b81;
 }
 

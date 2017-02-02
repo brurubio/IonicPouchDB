@@ -1,0 +1,25 @@
+<ion-view view-title="Login" name="login-view">
+  <ion-pane>
+    <!-- <ion-header-bar class="bar-stable">
+      <h1 class="title">Ionic Blank Starter</h1>
+    </ion-header-bar> -->
+    <ion-content>
+      <div class="logo">
+        <img alt="Logo_top" src="img/topo_nameLogo.png">
+      </div>
+      <div class="login-block">
+        <h1>Login</h1>
+        <form name="LoginForm">
+          <input type="text" placeholder="Username" ng-model="data.username" required="required"/>
+          <input type="password" placeholder="Password" ng-model="data.password" required="required"/>
+          <div class="button-block">
+            <button ng-click="authLogin(data)">Sign In</button>
+          </div>
+        </form>
+          <div class="button-block">
+            <button ng-click="registerPage()">Sign Up</button>
+          </div>
+      </div>
+    </ion-content>
+  </ion-pane>
+</ion-view>

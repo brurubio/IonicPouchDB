@@ -46,27 +46,16 @@ angular.module('starter.services', [])
   var login = function(name, pw) {
     return $q(function(resolve, reject) {
       PouchService.getDocumentbyUsername(name).then(function(doc){
-        console.log(doc);
-        console.log(doc.rows);
-        // console.log(doc.rows[0].doc.pswd);
-        if (Object.keys(doc.rows).length == 0){
+        if (Object.keys(doc.rows).length == '0'){
           reject('Login Failed.');
         } else {
           if (pw == doc.rows[0].doc.pswd){
                  storeUserCredentials(name + '.yourServerToken');
-                 resolve('Login success.');
+                 //resolve('Login success.');
+                 resolve(doc);
          }
         }
-        // for (i = 0; i < Object.keys(doc.rows).length; i++) {
-        //   if (name == doc.rows[i].doc.username){
-        //     if (pw == doc.rows[i].doc.pswd){
-        //       storeUserCredentials(name + '.yourServerToken');
-        //       resolve('Login success.');
-        //     }
-        //   }
-        // }
-        //reject('Login Failed.');
-      })
+      });
     });
   };
 
@@ -115,6 +104,23 @@ angular.module('starter.services', [])
   var db = new PouchDB('http://localhost:5984/apph', {skipSetup: true});
   local.sync(db, {live: true, retry: true}).on('error', console.log.bind(console));
 
+  //Iniciando Relationals Schemas
+  local.setSchema([
+  {
+    singular: 'instituicao',
+    plural: 'instituicoes',
+    relations: {
+      users: {belongsTo: 'user'},
+    }
+  },
+  {
+    singular: 'user',
+    plural: 'users',
+    relations: {
+      instiuicoes: {hasMany: 'instituicao'}
+    }
+  }
+]);
   // Inserir documento no banco
   PouchService.addDocument = function(document){
     return local.put(document).then(function (response) {
@@ -127,11 +133,10 @@ angular.module('starter.services', [])
   // Recuperar um documento do banco - atráves do ID
   PouchService.getDocument = function(id){
     return local.get(id).then(function (response) {
-      console.log(response);// handle doc
       return response;
     }).catch(function (err) {
       console.log(err);
-    })
+    });
   };
 
   // Recuperar todos os documentos do banco
@@ -142,6 +147,7 @@ angular.module('starter.services', [])
       console.log(err);
     });
   };
+
   PouchService.getDocumentbyType = function(){
     return local.query(function (doc, emit) {
       emit(doc.type);
@@ -149,7 +155,7 @@ angular.module('starter.services', [])
        return result;// retorna todos os documentos cujo valor da propriedade "type" é igual a "pessoa"
     }).catch(function (err) {
       console.log(err);
-    })
+    });
   };
 
   PouchService.getDocumentbyUsername = function(username){
@@ -159,7 +165,7 @@ angular.module('starter.services', [])
        return result;// retorna todos os documentos cujo valor da propriedade "type" é igual a "pessoa"
     }).catch(function (err) {
       console.log(err);//return err;
-    })
+    });
   };
 
   // Remover documento do banco por ID
@@ -170,6 +176,25 @@ angular.module('starter.services', [])
       console.log(err);
     });
   };
+
+  // //Inserir Documento Relationals
+  // PouchService.addRelational = function(type, doc){
+  //   return local.rel.save(type, doc).then(function (response) {
+  //     console.log(response);// handle response
+  //   }).catch(function (err) {
+  //     console.log(err);
+  //   });
+  // };
+  //
+  // //Inserir Documento Relationals
+  // PouchService.findRelational = function(type){
+  //   return local.rel.find(type).then(function (response) {
+  //     return response;
+  //     //console.log(response);// handle response
+  //   }).catch(function (err) {
+  //     console.log(err);
+  //   });
+  // };
 
   // Verifica dados para Login
   PouchService.logIn = function(document){

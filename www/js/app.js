@@ -15,15 +15,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     templateUrl: 'templates/SU/menu.html',
     controller: 'MainSUCtrl'
   })
-  .state('mainSU.modulo', {
-    url: '/modulo',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/SU/modulo.html',
-        controller: 'ModeSUCtrl'
-      }
-    }
-  })
   .state('mainSU.home', {
     url: '/home',
     views: {
@@ -39,6 +30,69 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       'menuContent': {
         templateUrl: 'templates/SU/register.html',
         controller: 'RegisterCtrl'
+      }
+    }
+  })
+  .state('mainSU.regInstHosp', {
+    url: '/newinst',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/registerHosp.html',
+        controller: 'regInstHospCtrl'
+      }
+    }
+  })
+  .state('mainSU.regInstPDV', {
+    url: '/newinst',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/registerPDV.html',
+        controller: 'regInstPDVCtrl'
+      }
+    }
+  })
+  .state('mainSU.regInstONG', {
+    url: '/newinst',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/registerONG.html',
+        controller: 'regInstONGCtrl'
+      }
+    }
+  })
+  .state('mainSU.regInstILP', {
+    url: '/newinst',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/registerILP.html',
+        controller: 'regInstILPCtrl'
+      }
+    }
+  })
+  .state('mainSU.regInstOP', {
+    url: '/newinst',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/registerOP.html',
+        controller: 'regInstOPCtrl'
+      }
+    }
+  })
+  .state('mainSU.regInstCLT', {
+    url: '/newinst',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/registerCLT.html',
+        controller: 'regInstCLTCtrl'
+      }
+    }
+  })
+  .state('mainSU.registerInstitution', {
+    url: '/newinst',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/registerInst.html'
+        //controller: 'regInstCtrl'
       }
     }
   })
@@ -84,6 +138,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       'menuContent': {
         templateUrl: 'templates/Coord/home.html',
         controller: 'HomeCoordCtrl'
+      }
+    }
+  })
+  .state('mainMKT', {
+    url: '/main',
+    abstract: true,
+    templateUrl: 'templates/MKT/menu.html',
+    controller: 'MainMKTCtrl'
+  })
+  .state('mainMKT.home', {
+    url: '/home',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/MKT/home.html',
+        controller: 'HomeMKTCtrl'
       }
     }
   });
