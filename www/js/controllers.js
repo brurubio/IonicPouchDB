@@ -105,7 +105,7 @@ angular.module('starter.controllers', [])
     }
     //PouchService.addRelational('user', $scope.user).then(function(){
     $scope.user.type = 'user';
-    $scope.user.inst = Object.create(null);
+    $scope.user.inst = [null];
     PouchService.addDocument($scope.user).then(function(){
       //console.log(docs);
       $state.go('login');
@@ -229,15 +229,16 @@ angular.module('starter.controllers', [])
     getUserID().then(function(d){
       $scope.inst.user = d.rows[0].doc._id;
       //console.log($scope.inst.user);
-      $scope.inst._id = 'instHosp03';
+      $scope.inst._id = 'instHosp06';
       $scope.inst.type = 'instHosp';
       //console.log($scope.inst);
       //console.log($scope.inst.user);
       PouchService.addDocument($scope.inst).then(function(){
            //console.log(doc);
            PouchService.getDocument($scope.inst.user).then(function(doc){
-            //  console.log(doc);
-             doc.inst = $scope.inst._id;
+             console.log(doc);
+             doc.inst.push($scope.inst._id);
+             console.log(doc.inst);
                PouchService.addDocument(doc).then(function(){
                });
            });
