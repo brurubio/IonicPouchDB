@@ -105,7 +105,7 @@ angular.module('starter.controllers', [])
     }
     //PouchService.addRelational('user', $scope.user).then(function(){
     $scope.user.type = 'user';
-    $scope.user.inst = [null];
+    $scope.user.inst = [];
     PouchService.addDocument($scope.user).then(function(){
       //console.log(docs);
       $state.go('login');
@@ -209,11 +209,8 @@ angular.module('starter.controllers', [])
 })
 
 .controller('regInstCLTCtrl', function($q, $scope, $state, $http, $ionicPopup, PouchService, AuthService) {
-  console.log($scope.username);
-})
-.controller('regInstHospCtrl', function($q, $scope, $state, $http, $ionicPopup, PouchService, AuthService) {
-  //console.log($scope.username);
   $scope.inst = {};
+  // Get user ID to bind in Institution
   getUserID = function (){
     return $q(function(resolve, reject) {
       PouchService.getDocumentbyUsername($scope.username).then(function(doc){
@@ -224,19 +221,18 @@ angular.module('starter.controllers', [])
       });
     });
   };
-
-  $scope.regNewHosp = function() {
+  // Register new CLT
+  $scope.regNewCLT = function() {
     getUserID().then(function(d){
       $scope.inst.user = d.rows[0].doc._id;
       //console.log($scope.inst.user);
-      $scope.inst._id = 'instHosp06';
-      $scope.inst.type = 'instHosp';
+      $scope.inst._id = 'instCLT';
+      $scope.inst.type = 'instCLT';
       //console.log($scope.inst);
       //console.log($scope.inst.user);
       PouchService.addDocument($scope.inst).then(function(){
            //console.log(doc);
            PouchService.getDocument($scope.inst.user).then(function(doc){
-             console.log(doc);
              doc.inst.push($scope.inst._id);
              console.log(doc.inst);
                PouchService.addDocument(doc).then(function(){
@@ -246,14 +242,184 @@ angular.module('starter.controllers', [])
       });
     });
   };
+})
+.controller('regInstHospCtrl', function($q, $scope, $state, $http, $ionicPopup, PouchService, AuthService) {
+  //console.log($scope.username);
+  $scope.inst = {};
+  // Get user ID to bind in Institution
+  getUserID = function (){
+    return $q(function(resolve, reject) {
+      PouchService.getDocumentbyUsername($scope.username).then(function(doc){
+        if (Object.keys(doc.rows).length == '0'){
+        } else {
+           resolve(doc);
+        }
+      });
+    });
+  };
+  // Register new Hosp
+  $scope.regNewHosp = function() {
+    getUserID().then(function(d){
+      $scope.inst.user = d.rows[0].doc._id;
+      //console.log($scope.inst.user);
+      $scope.inst._id = 'instHosp09';
+      $scope.inst.type = 'instHosp';
+      //console.log($scope.inst);
+      //console.log($scope.inst.user);
+      PouchService.addDocument($scope.inst).then(function(){
+           //console.log(doc);
+           PouchService.getDocument($scope.inst.user).then(function(doc){
+             //doc.inst.push($scope.inst._id);
+               PouchService.addDocument(doc).then(function(){
+               });
+           });
+           $state.go('mainSU.home');
+      });
+    });
+  };
+})
 
-})
 .controller('regInstILPCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
+  $scope.inst = {};
+  // Get user ID to bind in Institution
+  getUserID = function (){
+    return $q(function(resolve, reject) {
+      PouchService.getDocumentbyUsername($scope.username).then(function(doc){
+        if (Object.keys(doc.rows).length == '0'){
+        } else {
+           resolve(doc);
+        }
+      });
+    });
+  };
+  // Register new ILP
+  $scope.regNewILP = function() {
+    getUserID().then(function(d){
+      $scope.inst.user = d.rows[0].doc._id;
+      //console.log($scope.inst.user);
+      $scope.inst._id = 'instILP';
+      $scope.inst.type = 'instILP';
+      //console.log($scope.inst);
+      //console.log($scope.inst.user);
+      PouchService.addDocument($scope.inst).then(function(){
+           //console.log(doc);
+           PouchService.getDocument($scope.inst.user).then(function(doc){
+             doc.inst.push($scope.inst._id);
+             console.log(doc.inst);
+               PouchService.addDocument(doc).then(function(){
+               });
+           });
+           $state.go('mainSU.home');
+      });
+    });
+  };
 })
+
 .controller('regInstONGCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
+  $scope.inst = {};
+  // Get user ID to bind in Institution
+  getUserID = function (){
+    return $q(function(resolve, reject) {
+      PouchService.getDocumentbyUsername($scope.username).then(function(doc){
+        if (Object.keys(doc.rows).length == '0'){
+        } else {
+           resolve(doc);
+        }
+      });
+    });
+  };
+  // Register new ONG
+  $scope.regNewONG = function() {
+    getUserID().then(function(d){
+      $scope.inst.user = d.rows[0].doc._id;
+      //console.log($scope.inst.user);
+      $scope.inst._id = 'instONG';
+      $scope.inst.type = 'instONG';
+      //console.log($scope.inst);
+      //console.log($scope.inst.user);
+      PouchService.addDocument($scope.inst).then(function(){
+           //console.log(doc);
+           PouchService.getDocument($scope.inst.user).then(function(doc){
+             doc.inst.push($scope.inst._id);
+             console.log(doc.inst);
+               PouchService.addDocument(doc).then(function(){
+               });
+           });
+           $state.go('mainSU.home');
+      });
+    });
+  };
 })
+
 .controller('regInstOPCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
+  $scope.inst = {};
+  // Get user ID to bind in Institution
+  getUserID = function (){
+    return $q(function(resolve, reject) {
+      PouchService.getDocumentbyUsername($scope.username).then(function(doc){
+        if (Object.keys(doc.rows).length == '0'){
+        } else {
+           resolve(doc);
+        }
+      });
+    });
+  };
+  // Register new OP
+  $scope.regNewOP = function() {
+    getUserID().then(function(d){
+      $scope.inst.user = d.rows[0].doc._id;
+      //console.log($scope.inst.user);
+      $scope.inst._id = 'instOP';
+      $scope.inst.type = 'instOP';
+      //console.log($scope.inst);
+      //console.log($scope.inst.user);
+      PouchService.addDocument($scope.inst).then(function(){
+           //console.log(doc);
+           PouchService.getDocument($scope.inst.user).then(function(doc){
+             doc.inst.push($scope.inst._id);
+             console.log(doc.inst);
+               PouchService.addDocument(doc).then(function(){
+               });
+           });
+           $state.go('mainSU.home');
+      });
+    });
+  };
 })
+
 .controller('regInstPDVCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
+  $scope.inst = {};
+  // Get user ID to bind in Institution
+  getUserID = function (){
+    return $q(function(resolve, reject) {
+      PouchService.getDocumentbyUsername($scope.username).then(function(doc){
+        if (Object.keys(doc.rows).length == '0'){
+        } else {
+           resolve(doc);
+        }
+      });
+    });
+  };
+  // Register new PDV
+  $scope.regNewPDV = function() {
+    getUserID().then(function(d){
+      $scope.inst.user = d.rows[0].doc._id;
+      //console.log($scope.inst.user);
+      $scope.inst._id = 'instPDV';
+      $scope.inst.type = 'instPDV';
+      //console.log($scope.inst);
+      //console.log($scope.inst.user);
+      PouchService.addDocument($scope.inst).then(function(){
+           //console.log(doc);
+           PouchService.getDocument($scope.inst.user).then(function(doc){
+             doc.inst.push($scope.inst._id);
+             console.log(doc.inst);
+               PouchService.addDocument(doc).then(function(){
+               });
+           });
+           $state.go('mainSU.home');
+      });
+    });
+  };
 })
 ;

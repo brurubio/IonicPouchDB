@@ -1,8 +1,8 @@
-<ion-view view-title="Novo Consultório" name="regInstCLT-view">
+<ion-view view-title="Nova instituição" name="regInstCLT-view">
   <ion-pane>
       <ion-content>
         <div class="login-block">
-          <h1>Sign Up</h1>
+          <h1>Cadastrar Consultorio</h1>
           <form name="newCLTForm" id="CLTForm">
             <input type="text" value="" placeholder="Razão Social"  ng-model="inst.RS" required="required"/>
             <input type="text" value="" placeholder="Nome Fantasia"  ng-model="inst.NF" required="required"/>
@@ -16,8 +16,9 @@
             <input type="text" value="" placeholder="Compra Média" ng-model="inst.CMed" required="required"/>
             <input type="text" value="" placeholder="Última Compra" ng-model="inst.UComp" required="required"/>
             <!-- Dados Específicos -->
+            <input type="text" value="" placeholder="Número de Pacientes/Mês" ng-model="inst.nPacMes" required="required"/>
             <div class="button-block">
-              <button ng-click="">Cadastrar</button>
+              <button ng-click="regNewCLT()">Cadastrar</button>
             </div>
           </form>
         </div>
