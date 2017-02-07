@@ -42,11 +42,23 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     }
   })
+  .state('mainSU.changeUserInfo', {
+    url: '/useralt',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/SU/changeUserInfo.html',
+        controller: 'ChangeUserInfoCtrl'
+      }
+    },
+    params: {
+      'data' : null
+    }
+  })
   .state('mainSU.regInstHosp', {
     url: '/newinst',
     views: {
       'menuContent': {
-        templateUrl: 'templates/registerHosp.html',
+        templateUrl: 'templates/SU/registerHosp.html',
         controller: 'regInstHospCtrl'
       }
     }
@@ -55,7 +67,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     url: '/newinst',
     views: {
       'menuContent': {
-        templateUrl: 'templates/registerPDV.html',
+        templateUrl: 'templates/SU/registerPDV.html',
         controller: 'regInstPDVCtrl'
       }
     }
@@ -64,7 +76,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     url: '/newinst',
     views: {
       'menuContent': {
-        templateUrl: 'templates/registerONG.html',
+        templateUrl: 'templates/SU/registerONG.html',
         controller: 'regInstONGCtrl'
       }
     }
@@ -73,7 +85,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     url: '/newinst',
     views: {
       'menuContent': {
-        templateUrl: 'templates/registerILP.html',
+        templateUrl: 'templates/SU/registerILP.html',
         controller: 'regInstILPCtrl'
       }
     }
@@ -82,7 +94,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     url: '/newinst',
     views: {
       'menuContent': {
-        templateUrl: 'templates/registerOP.html',
+        templateUrl: 'templates/SU/registerOP.html',
         controller: 'regInstOPCtrl'
       }
     }
@@ -91,25 +103,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     url: '/newinst',
     views: {
       'menuContent': {
-        templateUrl: 'templates/registerCLT.html',
+        templateUrl: 'templates/SU/registerCLT.html',
         controller: 'regInstCLTCtrl'
       }
     }
   })
-  .state('mainSU.registerInstitution', {
-    url: '/newinst',
+  .state('mainSU.changeInst', {
+    url: '/instalt',
     views: {
       'menuContent': {
-        templateUrl: 'templates/registerInst.html'
-        //controller: 'regInstCtrl'
+        templateUrl: 'templates/SU/alterInst.html',
+        controller: 'ChangeInstCtrl'
       }
     }
   })
-  // .state('register', {
-  //   url: '/register',
-  //   templateUrl: 'templates/register.html',
-  //   controller: 'RegisterCtrl'
-  // })
   // Páginas para Setores
   .state('mainSet', {
     url: '/main',

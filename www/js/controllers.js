@@ -108,7 +108,7 @@ angular.module('starter.controllers', [])
     $scope.user.inst = [];
     PouchService.addDocument($scope.user).then(function(){
       //console.log(docs);
-      $state.go('login');
+      $state.go('mainSU.home');
     });
     //PouchService.getDocument('').then(function(docs){console.log(docs);});
     //PouchService.getAllDocuments().then(function(docs){console.log(docs);});
@@ -140,6 +140,18 @@ angular.module('starter.controllers', [])
 
 .controller('HomeSUCtrl', function($scope, $state, $http, $ionicPopup, PouchService, AuthService) {
   $scope.var = {};
+
+  //Register User
+  $scope.regUser = function(){
+    $state.go('mainSU.register');
+  };
+
+  //Change User
+  $scope.changeUser = function(){
+    $state.go('mainSU.changeUser');
+  };
+
+  // RegisterInst - Set Type and Redirect
   $scope.regInst = function (){
     //Get instype
     var myPopup = $ionicPopup.show({
@@ -177,8 +189,10 @@ angular.module('starter.controllers', [])
     ]
   });
   };
-  $scope.changeUser = function(){
-    $state.go('mainSU.changeUser');
+
+  // Change Institution
+  $scope.changeInst = function(){
+    $state.go('mainSU.changeInst');
   };
 })
 
@@ -237,7 +251,7 @@ angular.module('starter.controllers', [])
            //console.log(doc);
            PouchService.getDocument($scope.inst.user).then(function(doc){
              doc.inst.push($scope.inst._id);
-             console.log(doc.inst);
+             //console.log(doc.inst);
                PouchService.addDocument(doc).then(function(){
                });
            });
@@ -291,7 +305,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('regInstILPCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
+.controller('regInstILPCtrl', function($q, $scope, $state, $http, $ionicPopup, PouchService, AuthService) {
   $scope.inst = {};
   // Get user ID to bind in Institution
   getUserID = function (){
@@ -317,7 +331,7 @@ angular.module('starter.controllers', [])
            //console.log(doc);
            PouchService.getDocument($scope.inst.user).then(function(doc){
              doc.inst.push($scope.inst._id);
-             console.log(doc.inst);
+             //console.log(doc.inst);
                PouchService.addDocument(doc).then(function(){
                });
            });
@@ -327,7 +341,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('regInstONGCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
+.controller('regInstONGCtrl', function($q, $scope, $state, $http, $ionicPopup, PouchService, AuthService) {
   $scope.inst = {};
   // Get user ID to bind in Institution
   getUserID = function (){
@@ -353,7 +367,7 @@ angular.module('starter.controllers', [])
            //console.log(doc);
            PouchService.getDocument($scope.inst.user).then(function(doc){
              doc.inst.push($scope.inst._id);
-             console.log(doc.inst);
+             //console.log(doc.inst);
                PouchService.addDocument(doc).then(function(){
                });
            });
@@ -363,7 +377,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('regInstOPCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
+.controller('regInstOPCtrl', function($q, $scope, $state, $http, $ionicPopup, PouchService, AuthService) {
   $scope.inst = {};
   // Get user ID to bind in Institution
   getUserID = function (){
@@ -389,7 +403,7 @@ angular.module('starter.controllers', [])
            //console.log(doc);
            PouchService.getDocument($scope.inst.user).then(function(doc){
              doc.inst.push($scope.inst._id);
-             console.log(doc.inst);
+             //console.log(doc.inst);
                PouchService.addDocument(doc).then(function(){
                });
            });
@@ -399,7 +413,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('regInstPDVCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
+.controller('regInstPDVCtrl', function($q, $scope, $state, $http, $ionicPopup, PouchService, AuthService) {
   $scope.inst = {};
   // Get user ID to bind in Institution
   getUserID = function (){
@@ -425,7 +439,7 @@ angular.module('starter.controllers', [])
            //console.log(doc);
            PouchService.getDocument($scope.inst.user).then(function(doc){
              doc.inst.push($scope.inst._id);
-             console.log(doc.inst);
+             //console.log(doc.inst);
                PouchService.addDocument(doc).then(function(){
                });
            });
@@ -442,6 +456,86 @@ angular.module('starter.controllers', [])
      for (i = 0; i < Object.keys(doc.rows).length; i++) {
        $scope.places.push({id: doc.rows[i].doc._id, name: doc.rows[i].doc.name});
      }
+     //console.log($scope.places);
+  });
+
+  $scope.showFilterBar = function () {
+    var filterBarInstance = $ionicFilterBar.show({
+      cancelText: "<i class='ion-ios-close-outline'></i>",
+      items: $scope.places,
+      update: function (filteredItems, filterText) {
+        $scope.places = filteredItems;
+      }
+    });
+  };
+
+  $scope.enterUser = function(id){
+    //Change State sending parameters
+    $state.go('mainSU.changeUserInfo', {'data':id});
+  };
+})
+
+.controller('ChangeUserInfoCtrl', function($scope, $state, $stateParams, $http, $ionicPopup, $filter, $ionicFilterBar, PouchService, AuthService) {
+  $scope.data = $stateParams.data;
+  $scope.user = {};
+  // store old user
+  $scope.old = {};
+
+  //Get user information and show on HTML Form
+  PouchService.getDocument($stateParams.data).then(function(doc){
+    //console.log(doc);
+    $scope.user = doc;
+    $scope.old = doc._id;
+  });
+
+  // update User Infos
+  $scope.changeUser = function (){
+
+    PouchService.getDocument($scope.old).then(function(docOld){
+      if ($scope.user.usertype == 1){
+           $scope.user._id = 'userSet'+$scope.user.username;
+      } else if ($scope.user.usertype == 2){
+          $scope.user._id = 'userSU'+$scope.user.username;
+      } else if ($scope.user.usertype == 3){
+          $scope.user._id = 'userMKT'+$scope.user.username;
+      } else if ($scope.user.usertype == 4){
+          $scope.user._id = 'userCoord'+$scope.user.username;
+      }
+      if (docOld._id == $scope.user._id){
+        // if same id get old _rev
+        $scope.user._rev = docOld._rev;
+        docOld = $scope.user;
+        //update doc
+        PouchService.addDocument(docOld).then(function(){
+          var alertPopup = $ionicPopup.alert({
+            title: 'Usuário Alterado',
+            //template: 'Please check your credentials!'
+          });
+          $state.go('mainSU.home');
+        });
+      } else {
+        $scope.user.inst = docOld.inst;
+        // if diferent id restore _rev
+        $scope.user._rev = null;
+        //remove old doc
+        PouchService.removeDocument(docOld._id).then(function(){
+           //add new doc
+           PouchService.addDocument($scope.user).then(function(){
+             $state.go('mainSU.home');
+           });
+        });
+      }
+    });
+  };
+})
+
+.controller('ChangeInstCtrl', function($scope, $state, $http, $ionicPopup, $filter, $ionicFilterBar, PouchService, AuthService) {
+  $scope.places = [];
+
+  PouchService.getDocumentbyType('instituicao').then(function(doc){
+     for (i = 0; i < Object.keys(doc.rows).length; i++) {
+       $scope.places.push({id: doc.rows[i].doc._id, name: doc.rows[i].doc.NF});
+     }
      console.log($scope.places);
   });
 
@@ -453,6 +547,11 @@ angular.module('starter.controllers', [])
         $scope.places = filteredItems;
       }
     });
+  };
+
+  $scope.enterInst = function(id){
+    //Change State sending parameters
+    $state.go('mainSU.changeInstInfo', {'data':id});
   };
 })
 ;
