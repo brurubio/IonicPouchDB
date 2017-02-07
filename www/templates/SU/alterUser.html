@@ -11,7 +11,8 @@
 
     <ion-list>
       <ion-item ng-repeat="place in places" ng-class="{'found': place.found}">
-        <h2>{{place.name}}</h2>
+         <a href="" ng-click="enterUser(place.id);"><h2>{{place.name}}</h2></a>
+
       </ion-item>
     </ion-list>
 

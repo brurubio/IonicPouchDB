@@ -1,0 +1,19 @@
+<ion-view view-title="Alterar Usuário Info" name="alterUser-view"  hideBackButton="true">
+  <ion-pane>
+    <ion-content>
+        <h2>{{data}}</h2>
+        <div class="login-block">
+          <form name="RegisterForm" id="RegForm">
+            <input type="text" value="" placeholder="Name" name="uname" ng-model="user.name" required="required"/>
+            <input type="text" value="" placeholder="Username" name="uusername" ng-model="user.username" required="required"/>
+            <input type="text" value="" placeholder="Password" name="upswd" ng-model="user.pswd" required="required"/>
+            <input type="text" value="" placeholder="UserType" name="uusertype" ng-model="user.usertype" required="required"/>
+            <div class="button-block">
+              <button ng-click="changeUser()">Alterar</button>
+            </div>
+          </form>
+        </div>
+      </ion-content>
+    </ion-content>
+  </ion-pane>
+</ion-view>
