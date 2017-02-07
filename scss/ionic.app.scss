@@ -21,3 +21,6 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+@import
+  "path_to_bower_components/ionic/scss/ionic",
+  "path_to_bower_components/ionic-filter-bar/scss/ionic.filter.bar";

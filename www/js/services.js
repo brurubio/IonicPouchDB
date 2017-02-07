@@ -148,10 +148,10 @@ angular.module('starter.services', [])
     });
   };
 
-  PouchService.getDocumentbyType = function(){
+  PouchService.getDocumentbyType = function(typeName){
     return local.query(function (doc, emit) {
       emit(doc.type);
-    }, {key: 'user', include_docs: true}).then(function (result) {
+    }, {key: typeName, include_docs: true}).then(function (result) {
        return result;// retorna todos os documentos cujo valor da propriedade "type" é igual a "pessoa"
     }).catch(function (err) {
       console.log(err);

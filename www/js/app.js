@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngMockE2E'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'jett.ionic.filter.bar', 'ngMockE2E'])
 
 .config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
   $stateProvider
@@ -30,6 +30,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       'menuContent': {
         templateUrl: 'templates/SU/register.html',
         controller: 'RegisterCtrl'
+      }
+    }
+  })
+  .state('mainSU.changeUser', {
+    url: '/useralt',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/SU/alterUser.html',
+        controller: 'ChangeUserCtrl'
       }
     }
   })

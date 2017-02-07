@@ -1,0 +1,20 @@
+<ion-view view-title="Alterar Usuário" name="alterUser-view"  hideBackButton="true">
+  <ion-pane>
+    <!-- <ion-header-bar class="bar-stable">
+      <h1 class="title">Ionic Blank Starter</h1>
+    </ion-header-bar> -->
+    <!-- <a class="button icon-left ion-chevron-left button-clear button-dark">Back</a> -->
+
+    <ion-content>
+      <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()">
+    </button>
+
+    <ion-list>
+      <ion-item ng-repeat="place in places" ng-class="{'found': place.found}">
+        <h2>{{place.name}}</h2>
+      </ion-item>
+    </ion-list>
+
+    </ion-content>
+  </ion-pane>
+</ion-view>

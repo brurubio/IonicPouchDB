@@ -1,98 +1,230 @@
-// Ionic Starter App
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngMockE2E', 'jett.ionic.filter.bar'])
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+.config(function ($stateProvider, $urlRouterProvider, USER_ROLES) {
+  $stateProvider
+  //Página de Login - Geral
+  .state('login', {
+    url: '/login',
+    templateUrl: 'templates/login.html',
+    controller: 'LoginCtrl'
+  })
+  //Páginas para SuperUsuario
+  .state('mainSU', {
+    url: '/main',
+    abstract: true,
+    templateUrl: 'templates/SU/menu.html',
+    controller: 'MainSUCtrl'
+  })
+  .state('mainSU.home', {
+    url: '/home',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/SU/home.html',
+        controller: 'HomeSUCtrl'
+      }
+    }
+  })
+  .state('mainSU.register', {
+    url: '/register',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/SU/register.html',
+        controller: 'RegisterCtrl'
+      }
+    }
+  })
+  .state('mainSU.changeUser', {
+    url: '/useralt',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/SU/alterUser.html',
+        controller: 'ChangeUserCtrl'
+      }
+    }
+  })
+  .state('mainSU.regInstHosp', {
+    url: '/newinst',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/registerHosp.html',
+        controller: 'regInstHospCtrl'
+      }
+    }
+  })
+  .state('mainSU.regInstPDV', {
+    url: '/newinst',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/registerPDV.html',
+        controller: 'regInstPDVCtrl'
+      }
+    }
+  })
+  .state('mainSU.regInstONG', {
+    url: '/newinst',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/registerONG.html',
+        controller: 'regInstONGCtrl'
+      }
+    }
+  })
+  .state('mainSU.regInstILP', {
+    url: '/newinst',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/registerILP.html',
+        controller: 'regInstILPCtrl'
+      }
+    }
+  })
+  .state('mainSU.regInstOP', {
+    url: '/newinst',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/registerOP.html',
+        controller: 'regInstOPCtrl'
+      }
+    }
+  })
+  .state('mainSU.regInstCLT', {
+    url: '/newinst',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/registerCLT.html',
+        controller: 'regInstCLTCtrl'
+      }
+    }
+  })
+  .state('mainSU.registerInstitution', {
+    url: '/newinst',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/registerInst.html'
+        //controller: 'regInstCtrl'
+      }
+    }
+  })
+  // .state('register', {
+  //   url: '/register',
+  //   templateUrl: 'templates/register.html',
+  //   controller: 'RegisterCtrl'
+  // })
+  // Páginas para Setores
+  .state('mainSet', {
+    url: '/main',
+    abstract: true,
+    templateUrl: 'templates/Set/menu.html',
+    controller: 'MainSetCtrl'
+  })
+  .state('mainSet.home', {
+    url: '/home',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/Set/home.html',
+        controller: 'HomeSetCtrl'
+      }
+    }
+  })
+  .state('mainCoord', {
+    url: '/main',
+    abstract: true,
+    templateUrl: 'templates/Coord/menu.html',
+    controller: 'MainCoordCtrl'
+  })
+  .state('mainCoord.modulo', {
+    url: '/modulo',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/Coord/modulo.html',
+        controller: 'ModeCoordCtrl'
+      }
+    }
+  })
+  .state('mainCoord.home', {
+    url: '/home',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/Coord/home.html',
+        controller: 'HomeCoordCtrl'
+      }
+    }
+  })
+  .state('mainMKT', {
+    url: '/main',
+    abstract: true,
+    templateUrl: 'templates/MKT/menu.html',
+    controller: 'MainMKTCtrl'
+  })
+  .state('mainMKT.home', {
+    url: '/home',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/MKT/home.html',
+        controller: 'HomeMKTCtrl'
+      }
+    }
+  });
+  // .state('main.home', {
+  //   url: '/home',
+  //   views: {
+  //     'menuContent': {
+  //       templateUrl: 'templates/home.html'
+  //     }
+  //   }
+  //   //data: {
+  //   //  authorizedRoles: [USER_ROLES.admin]
+  //   //}
+  // });
 
+  // Thanks to Ben Noblet!
+  $urlRouterProvider.otherwise(function ($injector, $location) {
+    var $state = $injector.get("$state");
+    $state.go("login");
+  });
+})
+
+.run(function($httpBackend){
+  $httpBackend.whenGET('http://localhost:8100/valid')
+        .respond({message: 'This is my valid response!'});
+  $httpBackend.whenGET('http://localhost:8100/notauthenticated')
+        .respond(401, {message: "Not Authenticated"});
+  $httpBackend.whenGET('http://localhost:8100/notauthorized')
+        .respond(403, {message: "Not Authorized"});
+
+  $httpBackend.whenGET(/templates\/\w+.*/).passThrough();
+ })
+
+.run(function ($rootScope, $state, AuthService, AUTH_EVENTS) {
+  $rootScope.$on('$stateChangeStart', function (event, next, nextParams, fromState) {
+
+    if ('data' in next && 'authorizedRoles' in next.data) {
+      var authorizedRoles = next.data.authorizedRoles;
+      if (!AuthService.isAuthorized(authorizedRoles)) {
+        event.preventDefault();
+        $state.go($state.current, {}, {reload: true});
+        $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+      }
+    }
+
+    if (!AuthService.isAuthenticated()) {
+      if (next.name !== 'login') {
+        //event.preventDefault();
+        $state.go('login');
+      }
+    }
+  });
+})
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
 
     }
     if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-    //var PouchDB = require("pouchdb");
-    //PouchDB.plugin(require('pouchdb-authentication'));    
   });
-})
-
-.config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider
-    .state('login', {
-      url: '/login',
-      controller: 'LoginCtrl',
-      templateUrl: 'templates/login.html'
-  })
-    .state('teste', {
-      url: '/teste',
-      templateUrl: 'templates/teste.html'
-  })    
-    .state('register', {
-      url: '/register',
-      templateUrl: 'templates/register.html',
-      controller: 'RegisterCtrl'
-  })
-    .state('home', {
-      url: '/home',
-      //abstract: true,
-      templateUrl: 'templates/menu.html',
-      controller: 'HomeCtrl'
-  })
-    .state('home.modulo', {
-    url: '/modulo',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/modulo.html',
-        controller: 'ModeCtrl'
-      }
-    }
-  })
-  .state('home.search', {
-    url: '/search',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/search.html'
-      }
-    }
-  })
-
-  .state('home.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
-      }
-    })
-    .state('home.playlists', {
-      url: '/playlists',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/playlists.html',
-          //controller: 'PlaylistsCtrl'
-        }
-      }
-    })
-  .state('home.single', {
-    url: '/playlists/:playlistId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/playlist.html',
-       // controller: 'PlaylistCtrl'
-      }
-    }
-  });
-  // If none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
-
 });

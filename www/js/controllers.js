@@ -177,6 +177,9 @@ angular.module('starter.controllers', [])
     ]
   });
   };
+  $scope.changeUser = function(){
+    $state.go('mainSU.changeUser');
+  };
 })
 
 .controller('MainSetCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
@@ -227,7 +230,7 @@ angular.module('starter.controllers', [])
       $scope.inst.user = d.rows[0].doc._id;
       //console.log($scope.inst.user);
       $scope.inst._id = 'instCLT';
-      $scope.inst.type = 'instCLT';
+      $scope.inst.type = 'instituicao';
       //console.log($scope.inst);
       //console.log($scope.inst.user);
       PouchService.addDocument($scope.inst).then(function(){
@@ -262,14 +265,23 @@ angular.module('starter.controllers', [])
     getUserID().then(function(d){
       $scope.inst.user = d.rows[0].doc._id;
       //console.log($scope.inst.user);
-      $scope.inst._id = 'instHosp09';
-      $scope.inst.type = 'instHosp';
+      $scope.inst._id = 'instHosp';
+      $scope.inst.type = 'instituicao';
       //console.log($scope.inst);
       //console.log($scope.inst.user);
       PouchService.addDocument($scope.inst).then(function(){
            //console.log(doc);
            PouchService.getDocument($scope.inst.user).then(function(doc){
-             //doc.inst.push($scope.inst._id);
+             //append info in array
+             doc.inst.push($scope.inst._id);
+
+               // deletar inst._id do usuário
+               ///var index = doc.inst.indexOf($scope.inst._id);
+               ///console.log(index);
+               ///if (index > -1) {
+                ///  doc.inst.splice(index, 1);
+                ///}
+                ///
                PouchService.addDocument(doc).then(function(){
                });
            });
@@ -298,7 +310,7 @@ angular.module('starter.controllers', [])
       $scope.inst.user = d.rows[0].doc._id;
       //console.log($scope.inst.user);
       $scope.inst._id = 'instILP';
-      $scope.inst.type = 'instILP';
+      $scope.inst.type = 'instituicao';
       //console.log($scope.inst);
       //console.log($scope.inst.user);
       PouchService.addDocument($scope.inst).then(function(){
@@ -334,7 +346,7 @@ angular.module('starter.controllers', [])
       $scope.inst.user = d.rows[0].doc._id;
       //console.log($scope.inst.user);
       $scope.inst._id = 'instONG';
-      $scope.inst.type = 'instONG';
+      $scope.inst.type = 'instituicao';
       //console.log($scope.inst);
       //console.log($scope.inst.user);
       PouchService.addDocument($scope.inst).then(function(){
@@ -370,7 +382,7 @@ angular.module('starter.controllers', [])
       $scope.inst.user = d.rows[0].doc._id;
       //console.log($scope.inst.user);
       $scope.inst._id = 'instOP';
-      $scope.inst.type = 'instOP';
+      $scope.inst.type = 'instituicao';
       //console.log($scope.inst);
       //console.log($scope.inst.user);
       PouchService.addDocument($scope.inst).then(function(){
@@ -406,7 +418,7 @@ angular.module('starter.controllers', [])
       $scope.inst.user = d.rows[0].doc._id;
       //console.log($scope.inst.user);
       $scope.inst._id = 'instPDV';
-      $scope.inst.type = 'instPDV';
+      $scope.inst.type = 'instituicao';
       //console.log($scope.inst);
       //console.log($scope.inst.user);
       PouchService.addDocument($scope.inst).then(function(){
@@ -419,6 +431,27 @@ angular.module('starter.controllers', [])
            });
            $state.go('mainSU.home');
       });
+    });
+  };
+})
+
+.controller('ChangeUserCtrl', function($scope, $state, $http, $ionicPopup, $filter, $ionicFilterBar, PouchService, AuthService) {
+  $scope.places = [];
+
+  PouchService.getDocumentbyType('user').then(function(doc){
+     for (i = 0; i < Object.keys(doc.rows).length; i++) {
+       $scope.places.push({id: doc.rows[i].doc._id, name: doc.rows[i].doc.name});
+     }
+     console.log($scope.places);
+  });
+
+  $scope.showFilterBar = function () {
+    var filterBarInstance = $ionicFilterBar.show({
+      cancelText: "<i class='ion-ios-close-outline'></i>",
+      items: $scope.places,
+      update: function (filteredItems, filterText) {
+        $scope.places = filteredItems;
+      }
     });
   };
 })
